@@ -5,7 +5,7 @@
 2. [What is Reader Writer Problem](#what-is-reader-writer-problem)
 3. [What is Starvation](#what-is-starvation)
 4. [Classical Reader Writer Solution](#classical-reader-writer-solution)
-    - i. [Data Structures](#data-structures)
+    - i. [Data Structures](#data-structure)
     - ii. [Classical Pseudocode](#classical-pseudocode)
 5. [Problem in Classical Solution](#problem-in-classical-solution)
 6. [Starve Free Solution](#starve-free-solution)
@@ -50,7 +50,7 @@ This repository contains the implementation of Starve Free Reader Writer Problem
 
 <hr>
 
-## Data Structures 
+## Data Structure
 * The data structures used in the classical solution are as follows:
 
 ```cpp
@@ -272,7 +272,6 @@ Semaphore* read_mutex = new Semaphore(resource);  // mutex lock for readcount
 Semaphore* write_mutex = new Semaphore(resource); // mutex lock for writer
 ```
 
-<br>
 
 ### Reader (Starve Free)
 ```cpp
@@ -303,7 +302,6 @@ void reader(process* process)
 }
 ```
 
-<br>
 
 ### Writer (Starve Free)
 ```cpp
@@ -327,23 +325,19 @@ void writer(process* process)
 
 <br>
 <hr>
-<br>
 
 # Correctness of the Starve Free Solution
 * For the solution to be correct it must satisfy the conditon of Mutial Exclusion, Progress and Bounded Waiting. The correctness of the solution is as follows:
 
-<br>
 
 ## Mutual Exclusion
 * The entry mutex works on First come first serve basis. So, the there is no chance of starvation of any thread as they will get the chance to enter the critical section in the order they arrived without any priority or biasedness. Also the `mutex` lock ensures that only one thread can enter the critical section at a time, thus ensuring mutual exclusion.
 
-<br>
 
 ## Progress
 * Progress means that there will not be any situation where any thread will be in a `deadlock` state that is indefinitely waiting for resource.
 * In our solution the `mutex`, `read_mutex` and `write_mutex` locks ensure that the threads are not in a deadlock state. The `mutex` lock ensures that only one thread can enter the critical section at a time. The `read_mutex` lock ensures that only one thread can access the `readcount` variable at a time. The `write_mutex` lock ensures that only one thread can access the shared resource at a time.
 
-<br>
 
 ## Bounded Waiting
 * Bounded waiting means that the waiting time for a thread to enter the critical section is bounded(finite) and is not indefinite.

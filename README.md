@@ -17,12 +17,10 @@
 
 <br>
 <hr>
-<br>
 
 # Introduction
 This repository contains the implementation of Starve Free Reader Writer Problem. The following sections describe the problem and the solution along with the pseudocode implementation and the correctness proof.
 
-<br>
 <hr>
 <br>
 
@@ -34,7 +32,6 @@ This repository contains the implementation of Starve Free Reader Writer Problem
 
 <img src="./assets/reader_writer.png">
 
-<br>
 <hr>
 <br>
 
@@ -47,12 +44,10 @@ This repository contains the implementation of Starve Free Reader Writer Problem
 
 <br>
 <hr>
-<br>
 
 # Classical Reader Writer Solution
 * The classical solution to the reader-writer problem is to use a mutex lock to ensure that only one thread can access the shared resource at a time. This solution is simple and easy to implement, but it has a major drawback: it can lead to starvation. If a writer thread is waiting to access the shared resource, it will be blocked until all the reader threads have finished reading from the resource. This can lead to a situation where the writer thread is blocked indefinitely.
 
-<br>
 <hr>
 
 ## Data Structures 
@@ -64,7 +59,6 @@ semaphore mutex = 1;  // mutex lock for critical section
 semaphore db = 1;    // mutex lock for shared resource
 ```
 
-<br>
 <hr>
 
 ## Classical Pseudocode
@@ -114,7 +108,6 @@ void writer()
 }
 ```
 
-<br>
 <hr>
 <br>
 
@@ -125,7 +118,6 @@ void writer()
 
 * To avoid starvation in the reader-writer problem, it is essential to implement a `fair scheduling algorithm` that gives equal access to the shared resource to both reader and writer threads. One possible solution is to use a `queue` or `semaphore` to store the threads that are waiting to access the shared resource. This ensures that the threads are served in a `first-come-first-serve` manner, preventing starvation from occurring.
 
-<br>
 <hr>
 <br>
 
@@ -133,14 +125,12 @@ void writer()
 * The starve free solution to the reader-writer problem is to use a `queue` to store the threads that are waiting to access the shared resource. This ensures that the threads are served in a `first-come-first-serve` manner, `preventing starvation` from occurring. This solution is more complex than the classical solution, but it ensures that the writer threads are not starved of access to the shared resource.
 * For this solution we have to update the `reader` and `writer` functions as well as the `data structures` and `Semaphores` used in the classical solution.
 
-<br>
 <hr>
 
 ## Solution
 * This solution uses a `first-come-first-serve` scheduling algorithm to ensure that the threads are served in a fair manner, preventing starvation from occurring. `Semaphores` are used to solve the problem of process synchronization. The semaphore is linked to a critical section and contains a `Queue (FIFO structure)` that stores the list of processes that are `blocked` and `waiting` to acquire the semaphore.
 
 
-<br>
 <hr>
 
 ## Data Structures

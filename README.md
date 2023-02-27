@@ -342,3 +342,11 @@ void writer(process* process)
 ## Bounded Waiting
 * Bounded waiting means that the waiting time for a thread to enter the critical section is bounded(finite) and is not indefinite.
 * In our solution the `FCFS Scheduling Algorithm` ensures that no process is prioritized over the other and hence there is no chance of indefinite waiting for a resource.
+
+<br>
+<hr>
+
+# References
+1. [Reader Writer problem](https://en.wikipedia.org/wiki/Readers%E2%80%93writers_problem)
+2. [Solution to Reader Writer problem](https://arxiv.org/ftp/arxiv/papers/1309/1309.4507.pdf)
+3. [Tanenbaum](https://csc-knu.github.io/sys-prog/books/Andrew%20S.%20Tanenbaum%20-%20Modern%20Operating%20Systems.pdf)

@@ -10,9 +10,9 @@
 5. [Problem in Classical Solution](#problem-in-classical-solution)
 6. [Starve Free Solution](#starve-free-solution)
    - i. [Solution](#solution)
-   - ii. [Data Structures](#data-structures)
+   - ii. [Required Functions](#required-functions)
    - iii. [Starve free Pseudocode](#starve-free-pseudocode)
-7. [Correctness of Starve Free Solution](#correctness-of-starve-free-solution)
+7. [Proof of no starvation](#proof-of-no-starvation)
 8. [References](#references)
 
 <br>
@@ -21,6 +21,9 @@
 # Introduction
 This repository contains the implementation of Starve Free Reader Writer Problem. The following sections describe the problem and the solution along with the pseudocode implementation and the correctness proof.
 
+**Name** : Patel Jainil Subhashkumar <br>
+**Enrollment No** : 21114072    <br>
+**Batch** : Btech CSE, 2nd Year
 <hr>
 <br>
 
@@ -133,14 +136,13 @@ void writer()
 
 <hr>
 
-## Data Structures
+## Required Functions
 * The data structures used in the starve free solution are as follows:
 1. Process class 
 2. Queue class for blocked processes/threads
 3. Semaphore class
-4. Wakeup function
-5. Signal function
-6. Wait function
+4. Signal function
+5. Wait function
 
 <br>
 
@@ -151,8 +153,11 @@ class Process
     public:
         process* next;       // pointer to next process
         int ID;              // process ID
-        bool state = true;   // blocked = false, ready = true
-
+        bool state;   // blocked = false, ready = true
+        Process(int ID) {
+            this->ID = ID;
+            this->state = true;
+        }
     // helper functions like constructor, destructor, getter and setters
 };
 ```
@@ -215,35 +220,24 @@ class Semaphore
 
 <br>
 
-4. Wakeup function
-```cpp
-void wakeup(Semaphore* semaphore)
-{
-    process* process = semaphore->queue->pop();
-    if(process != NULL)
-    {
-        process->state = true;
-    }
-}
-```
-
-<br>
-
-5. Signal function
+4. Signal function
 ```cpp
 void signal(Semaphore* semaphore)
 {
     semaphore->value++;
     if(semaphore->value <= 0)
     {
-        wakeup(semaphore.blockedQueue.pop());
+        process* process = semaphore.blockedQueue.pop();
+        if(process != NULL) {
+            process->state = true;
+        }
     }
 }
 ```
 
 <br>
 
-6. Wait function
+5. Wait function
 ```cpp
 void wait(Semaphore* semaphore, process* process)
 {
@@ -326,7 +320,7 @@ void writer(process* process)
 <br>
 <hr>
 
-# Correctness of the Starve Free Solution
+# Proof of no starvation
 * For the solution to be correct it must satisfy the conditon of Mutial Exclusion, Progress and Bounded Waiting. The correctness of the solution is as follows:
 
 

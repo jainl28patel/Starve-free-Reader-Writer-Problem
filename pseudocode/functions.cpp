@@ -45,17 +45,13 @@ public:
   }
 };
 
-void wakeup(Semaphore *semaphore) {
-  process *process = semaphore->queue->pop();
-  if (process != NULL) {
-    process->state = true;
-  }
-}
-
 void signal(Semaphore *semaphore) {
   semaphore->value++;
   if (semaphore->value <= 0) {
-    wakeup(semaphore.blockedQueue.pop());
+    process* process = semaphore->queue->pop();
+    if (process != NULL) {
+      process->state = true;
+    }
   }
 }
 

@@ -7,33 +7,6 @@ public:
   // helper functions like constructor, destructor, getter and setters
 };
 
-class blockedQueue {
-  int size = 0;
-  process *front, *back;
-
-public:
-  void push(int id) {
-    process *newProcess = new process(id);
-    if (size == 0) {
-      front = back = newProcess;
-    } else {
-      back->next = newProcess;
-      back = newProcess;
-    }
-    size++;
-  }
-
-  process *pop() {
-    if (size == 0) {
-      return NULL;
-    }
-    process *temp = front;
-    front = front->next;
-    size--;
-    return temp;
-  }
-};
-
 class Semaphore {
 public:
   int value;           // semaphore value

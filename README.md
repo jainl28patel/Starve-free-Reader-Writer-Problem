@@ -139,10 +139,9 @@ void writer()
 ## Required Functions
 * The data structures used in the starve free solution are as follows:
 1. Process class 
-2. Queue class for blocked processes/threads
-3. Semaphore class
-4. Signal function
-5. Wait function
+2. Semaphore class
+3. Signal function
+4. Wait function
 
 <br>
 
@@ -164,63 +163,26 @@ class Process
 
 <br>
 
-2. Queue class for blocked processes/threads
-```cpp
-class blockedQueue {
-    int size = 0;
-    process *front, *back;
-
-    public :
-        void push(int id) 
-        {
-            process *newProcess = new process(id);
-            if (size == 0) 
-            {
-                front = back = newProcess;
-            } 
-            else 
-            {
-                back->next = newProcess;
-                back = newProcess;
-            }
-            size++;
-        }
-
-        process* pop() 
-        {
-            if (size == 0) 
-            {
-                return NULL;
-            }
-            process *temp = front;
-            front = front->next;
-            size--;
-            return temp;
-        }
-};
-```
-
-<br>
-
-3. Semaphore class
+2. Semaphore class
 ```cpp
 class Semaphore
 {
     public:
         int value;           // semaphore value
-        blockedQueue* queue; // queue of blocked processes
+        // blockedQueue* queue; // queue of blocked processes
+        Queue<process> blockedQueue;
 
         Semaphore(int value)
         {
             this->value = value;
-            this->queue = new blockedQueue();
+            // this->queue = new blockedQueue();
         }
 };
 ```
 
 <br>
 
-4. Signal function
+3. Signal function
 ```cpp
 void signal(Semaphore* semaphore)
 {
@@ -237,7 +199,7 @@ void signal(Semaphore* semaphore)
 
 <br>
 
-5. Wait function
+4. Wait function
 ```cpp
 void wait(Semaphore* semaphore, process* process)
 {

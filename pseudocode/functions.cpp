@@ -9,31 +9,31 @@ public:
 
 class Semaphore {
 public:
-  int value;           // semaphore value
-  blockedQueue *queue; // queue of blocked processes
+  int value; // semaphore value
+  Queue<process> blockedQueue;
 
   Semaphore(int value) {
     this->value = value;
-    this->queue = new blockedQueue();
+    // this->queue = new blockedQueue();
   }
-};
 
-void signal(Semaphore *semaphore) {
-  semaphore->value++;
-  if (semaphore->value <= 0) {
-    process* process = semaphore->queue->pop();
-    if (process != NULL) {
-      process->state = true;
+  void signal() {
+    value++;
+    if (value <= 0) {
+      process *process = blockedQueue.pop();
+      if (process != NULL) {
+        process->state = true;
+      }
     }
   }
-}
 
-void wait(Semaphore *semaphore, process *process) {
-  semaphore->value--;
-  if (semaphore->value < 0) {
-    process->state = false;
-    semaphore->queue->push(process);
-    while (process->state == false)
-      ;
+  void wait(process *process) {
+    value--;
+    if (value < 0) {
+      process->state = false;
+      blockedQueue.push(process);
+      while (process->state == false)
+        ;
+    }
   }
-}
+};

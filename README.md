@@ -138,10 +138,8 @@ void writer()
 
 ## Required Functions
 * The data structures used in the starve free solution are as follows:
-1. Process class 
-2. Semaphore class
-3. Signal function
-4. Wait function
+1. Process
+2. Semaphore
 
 <br>
 
@@ -176,40 +174,30 @@ class Semaphore
             this->value = value;
             // this->queue = new blockedQueue();
         }
-};
-```
 
-<br>
-
-3. Signal function
-```cpp
-void signal(Semaphore* semaphore)
-{
-    semaphore->value++;
-    if(semaphore->value <= 0)
-    {
-        process* process = semaphore.blockedQueue.pop();
-        if(process != NULL) {
-            process->state = true;
+        void signal()
+        {
+            value++;
+            if(value <= 0)
+            {
+                process* process = blockedQueue.pop();
+                if(process != NULL) {
+                    process->state = true;
+                }
+            }
         }
-    }
-}
-```
 
-<br>
-
-4. Wait function
-```cpp
-void wait(Semaphore* semaphore, process* process)
-{
-    semaphore->value--;
-    if(semaphore->value < 0)
-    {
-        process->state = false;
-        semaphore->queue->push(process);
-        while(process->state == false);
-    }
-}
+        void wait(process* process)
+        {
+            value--;
+            if(value < 0)
+            {
+                process->state = false;
+                blockedQueue.push(process);
+                while(process->state == false);
+            }
+        }
+};
 ```
 
 <br>
@@ -235,24 +223,24 @@ void reader(process* process)
 {
     while(true)
     {
-        wait(mutex, process);          // acquire mutex lock
-        wait(read_mutex, process);     // acquire read_mutex lock
+        mutex.wait(process)          // acquire mutex lock
+        read_mutex.wait(process)     // acquire read_mutex lock
         readcount++;                   // increment the number of readers
         if(readcount == 1)             // if this is the first reader
-            wait(write_mutex, process); // acquire lock to shared resource
-        signal(read_mutex);            // release read_mutex lock
+            write_mutex.wait(process) // acquire lock to shared resource
+        read_mutex.signal();            // release read_mutex lock
 
-        signal(mutex);                 // release mutex lock
+        mutex.signal();                 // release mutex lock
     
         /*************************/
         /*   CRITICAL SECTION   */
         /*************************/
 
-        wait(read_mutex);              // acquire read_mutex lock
+        read_mutex.wait(process);              // acquire read_mutex lock
         readcount--;                   // decrement the number of readers
         if(readcount == 0)             // if this is the last reader
-            signal(write_mutex);       // release lock to shared resource
-        signal(read_mutex);            // release read_mutex lock
+            write_mutex.signal();       // release lock to shared resource
+        read_mutex.signal();            // release read_mutex lock
     }
 }
 ```
@@ -265,15 +253,15 @@ void writer(process* process)
 {
     while(true)
     {
-        wait(mutex, process);          // acquire mutex lock
-        wait(write_mutex, process);    // acquire lock to shared resource
-        signal(mutex);                 // release mutex lock
+        mutex.wait(process);          // acquire mutex lock
+        write_mutex.wait(process);    // acquire lock to shared resource
+        mutex.signal();                 // release mutex lock
 
         /*************************/
         /*   CRITICAL SECTION   */
         /*************************/
 
-        signal(write_mutex);           // release lock to shared resource
+        write_mutex.signal();           // release lock to shared resource
     }
 }
 ```

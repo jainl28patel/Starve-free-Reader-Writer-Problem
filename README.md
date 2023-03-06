@@ -5,7 +5,7 @@
 2. [What is Reader Writer Problem](#what-is-reader-writer-problem)
 3. [What is Starvation](#what-is-starvation)
 4. [Classical Reader Writer Solution](#classical-reader-writer-solution)
-    - i. [Data Structures](#data-structure)
+    - i. [Initialization](#initialization)
     - ii. [Classical Pseudocode](#classical-pseudocode)
 5. [Problem in Classical Solution](#problem-in-classical-solution)
 6. [Starve Free Solution](#starve-free-solution)
@@ -53,7 +53,7 @@ This repository contains the implementation of Starve Free Reader Writer Problem
 
 <hr>
 
-## Data Structure
+## Initialization
 * The data structures used in the classical solution are as follows:
 
 ```cpp
@@ -169,7 +169,6 @@ class Semaphore
 {
     public:
         int value;           // semaphore value
-        // blockedQueue* queue; // queue of blocked processes
         Queue<process> blockedQueue;
 
         Semaphore(int value)
@@ -304,6 +303,6 @@ void writer(process* process)
 
 # References
 1. [Reader Writer problem](https://en.wikipedia.org/wiki/Readers%E2%80%93writers_problem)
-2. [Solution to Reader Writer problem](https://arxiv.org/ftp/arxiv/papers/1309/1309.4507.pdf)
+2. [Reference paper](https://arxiv.org/ftp/arxiv/papers/1309/1309.4507.pdf)
 3. [Textbook for OS, Modern Operating Systems by Andrew S Tanenbaum](https://csc-knu.github.io/sys-prog/books/Andrew%20S.%20Tanenbaum%20-%20Modern%20Operating%20Systems.pdf)
 4. [Research Gate](https://www.researchgate.net/figure/Readers-Writers-problem_fig4_237619066)
